@@ -8,7 +8,10 @@ import io.dagger.client.Dagger;
 import io.dagger.module.annotation.ModuleFunction;
 import io.dagger.module.annotation.ModuleObject;
 
-@ModuleObject(description="A simple test object")
+/**
+ * A simple test object
+ */
+@ModuleObject()
 public class SampleModule {
 
     private Client client;
@@ -17,13 +20,23 @@ public class SampleModule {
         this.client = Dagger.connect();
     }
 
-    @ModuleFunction(value="echo", description="Returns a container that echoes whatever string argument is provided")
+    /**
+     * Returns a container that echoes whatever string argument is provided
+     * 
+     * @param stringArg the string to echoed
+     */
+    @ModuleFunction("echo")
     public Container containerEcho(String stringArg) {
         return client.container().from("alpine:latest").withExec(List.of("echo", stringArg));
     }
 
-    @ModuleFunction(value="foobar")
-    public List<String> arrayOfString() {
-        return null;
+    /** 
+     * Returns an empty list of strings 
+     * 
+     * @param size the size of string list
+     */
+    @ModuleFunction("foobar")
+    public List<String> arrayOfString(int size) {
+        return List.of();
     }
 }
